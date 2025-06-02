@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
+#include <threads.h>
 
 
 int itemQuantMax = 15;
@@ -13,6 +14,20 @@ char buffer[500];
 
 char * pBuffer = &buffer[sizeof(buffer)];
 
+
+void listItem(char list[][25]) {
+
+	for (int i = 0; i < 25; i ++) {
+
+		if (list[i][0] != '\0') {
+			printf("%s\n", list[i]);
+
+
+		}
+
+	}
+
+}
 
 void addItem(char list[][25], int * quant, int quantMax) {
 
@@ -39,46 +54,49 @@ void addItem(char list[][25], int * quant, int quantMax) {
 void removeItem(char * buff, char list[][25]) {
 
 	while (1 == 1) {
+
+		printf("deseja ver os itens da lista atualmente ?\n[Y/N] ->");
+		scanf("%s", buff);
+
+		if (*buff == 'Y') {
+			listItem(list);
+		}
+
 		printf("Informe o item para ser removido\n -> ");
 		scanf("%s", buff);
+
+
+		if (strcmp(buff, "EXIT") == 0 || strcmp(buff, "exit") == 0) {
+			break;
+		}
 
 		for (int i = 0; i < itemQuantMax; i++) {
 
 			if (strcasecmp(list[i], buff) == 0) {
 				for (int j = 0; j < itemNameSize; j++) {
-					lista[i][j] = '\0';
+					list[i][j] = '\0';
 				}
-
-				printf("item removido com suceesso");
-
-
-				break;
-			}else {
-				printf("Item não encontrado");
 
 				break;
 			}
+
+			printf("Item não encontrado !")	;
 		}
 	}
 }
 
-void listItem(char list[][25]) {
 
-	for (int i = 0; i < 25; i ++) {
-
-		if (list[i][0] != '\0') {
-			printf("%s\n", list[i]);
-		}
-
-	}
-
-}
 
 int main(){
 
+	const time_t startTime = time(NULL);
+
+
 	while (1 == 1) {
 
-		printf("informe a operação a ser realizada\n -> ");
+		while (time(NULL) - startTime < 2);
+
+		printf("informe a operação a ser realizada\n[A]dicionar\n[R]emover\n[L]istar\n -> ");
 
 		int op = getchar();
 
