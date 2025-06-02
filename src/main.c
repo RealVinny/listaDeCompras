@@ -4,120 +4,101 @@
 #include <strings.h>
 
 
-    
+int itemQuantMax = 15;
+int itemNameSize = 25;
+int itemCurrentQuant = 0;
 
-void addItem(char * list[], int *index, const char *element){
+char lista[15][25];
+char buffer[500];
 
-    list[*index] = strdup(element);
-    (*index)++;
-   
- 
+char * pBuffer = &buffer[sizeof(buffer)];
+
+
+void addItem(char list[][25], int * quant, int quantMax) {
+
+	while (1 == 1) {
+
+		if ( quantMax > *quant) {
+
+			printf("informe o item a ser adicionado na lista\n informe exit para sair\n -> ");
+			scanf("%s", buffer);
+			if (strcmp(buffer, "EXIT") == 0 || strcmp(buffer, "exit") == 0) {
+				break;
+			}else {
+				strcpy(list[*quant], buffer);
+				(*quant)++;
+			}
+		}else {
+			printf("a lista esta cheia!");
+			break;
+		}
+	}
+
 }
 
-void RemoveItem(char * list[], const char *element){
+void removeItem(char * buff, char list[][25]) {
 
-    for(int i = 0; sizeof(*list) > i; i++){
-        
-        if(strcasecmp(list[i], element)){
-            strcpy(list[i], NULL);
-            printf("elemento removido com sucesso");
-            break;
-        }
+	while (1 == 1) {
+		printf("Informe o item para ser removido\n -> ");
+		scanf("%s", buff);
 
-    }
+		for (int i = 0; i < itemQuantMax; i++) {
+
+			if (strcasecmp(list[i], buff) == 0) {
+				for (int j = 0; j < itemNameSize; j++) {
+					lista[i][j] = '\0';
+				}
+
+				printf("item removido com suceesso");
+
+
+				break;
+			}else {
+				printf("Item não encontrado");
+
+				break;
+			}
+		}
+	}
 }
 
+void listItem(char list[][25]) {
 
-void ListItems(char *list[]){
+	for (int i = 0; i < 25; i ++) {
 
-    for(int i = 0; sizeof(*list) > i; i++){
-        printf("%s", list[i]);
-    }
+		if (list[i][0] != '\0') {
+			printf("%s\n", list[i]);
+		}
+
+	}
+
 }
-
-
-
 
 int main(){
 
-char * lista[50] = {0};
-int quantItens = {0};
-int * pQuantItens = &quantItens;
-char item[] = "";
+	while (1 == 1) {
 
+		printf("informe a operação a ser realizada\n -> ");
 
-printf("oque você deseja fazer?\n");
-printf("[A]dicionar, [R]emover, [L]istar\n ->");
-    int op = getchar();
+		int op = getchar();
 
-    if(op == 'A'){ // Adicionando Itens
-    
+		if (op == 'A') {
 
-        while( 1 == 1){
-
-    char entrada[] = {0};
+			addItem(lista, &itemCurrentQuant, itemQuantMax);
 
 
 
-    printf("diga o nome do item para ser adicionado:");
-    scanf("%s", entrada);
+		}else if (op == 'R') {
 
-        if(strcasecmp(entrada, "quit")){
-            break;
-        }
-
-    addItem(lista, pQuantItens, entrada);
-
-        
-
-    }
-    
-        }else if(op == 'R'){ // Removendo item
-
-        while( 1 == 1){
-
-    char entrada[] = {0};
-    
-
-    printf("diga o nome do item para ser removido:");
-    scanf("%s", entrada);
-
-        if(strcasecmp(entrada, "quit")){
-            break;
-            } 
-  
-            RemoveItem(lista, entrada);
-
-        
-
-    }
-
-        }else if(op == 'L'){ // Listando Itens
+				removeItem(pBuffer, lista);
 
 
-        while( 1 == 1){
+		}else if (op == 'L') {
 
-    char entrada[] = {0};
-    
-
-    printf("diga o nome do item para ser adicionado:");
-    scanf("%s", entrada);
-
-        if(strcasecmp(entrada, "quit")){
-            break;
-
-        ListItems(lista);
+				listItem(lista);
 
 
-
-    }
-
-    }
-    }
-
-printf("%s", lista[0]);
-
-
-
+		}
+	}
 	return 0;
 }
