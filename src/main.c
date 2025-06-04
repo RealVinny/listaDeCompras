@@ -30,7 +30,7 @@ void limparBuff() {
 
 }
 
-void listItem(char list[][25]) {
+void listItem(const char list[][25]) {
 
 	for (int i = 0; i < 25; i ++) {
 
@@ -55,12 +55,12 @@ void addItem(char list[][25], int * quant, int quantMax) {
 		if ( quantMax > *quant) {
 
 			printf("informe o item a ser adicionado na lista\n informe exit para sair\n -> ");
-			scanf("%s", buffer);
+			scanf("%150s", buffer);
 			if (strcmp(buffer, "EXIT") == 0 || strcmp(buffer, "exit") == 0) {
 					limparBuff();
 				break;
 			}else {
-				strcpy(list[*quant], buffer);
+				strlcpy(list[*quant], buffer, sizeof(list[*quant]));
 				(*quant)++;
 			}
 		}else {
@@ -76,14 +76,14 @@ void removeItem(char * buff, char list[][25]) {
 	while (1 == 1) {
 
 		printf("deseja ver os itens da lista atualmente ?\n[Y/N] ->");
-		scanf("%s", buff);
+		scanf("%150s", buff);
 
 		if (*buff == 'Y') {
 			listItem(list);
 		}
 
 		printf("Informe o item para ser removido\n -> ");
-		scanf("%s", buff);
+		scanf("%150s", buff);
 
 
 		if (strcmp(buff, "EXIT") == 0 || strcmp(buff, "exit") == 0) {
