@@ -15,17 +15,36 @@ char buffer[500];
 char * pBuffer = &buffer[sizeof(buffer)];
 
 
+
+void wait(int sec) {
+
+	const time_t startTime = time(NULL);
+
+	while (time(NULL) - startTime < sec){};
+
+}
+void limparBuff() {
+
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF);
+
+}
+
 void listItem(char list[][25]) {
 
 	for (int i = 0; i < 25; i ++) {
 
 		if (list[i][0] != '\0') {
 			printf("%s\n", list[i]);
+			wait(1);
 
 
 		}
 
 	}
+
+	limparBuff();
+
 
 }
 
@@ -38,6 +57,7 @@ void addItem(char list[][25], int * quant, int quantMax) {
 			printf("informe o item a ser adicionado na lista\n informe exit para sair\n -> ");
 			scanf("%s", buffer);
 			if (strcmp(buffer, "EXIT") == 0 || strcmp(buffer, "exit") == 0) {
+					limparBuff();
 				break;
 			}else {
 				strcpy(list[*quant], buffer);
@@ -67,6 +87,7 @@ void removeItem(char * buff, char list[][25]) {
 
 
 		if (strcmp(buff, "EXIT") == 0 || strcmp(buff, "exit") == 0) {
+			limparBuff();
 			break;
 		}
 
@@ -89,12 +110,12 @@ void removeItem(char * buff, char list[][25]) {
 
 int main(){
 
-	const time_t startTime = time(NULL);
+
 
 
 	while (1 == 1) {
 
-		while (time(NULL) - startTime < 2);
+		wait(0.5);
 
 		printf("informe a operação a ser realizada\n[A]dicionar\n[R]emover\n[L]istar\n -> ");
 
@@ -104,18 +125,16 @@ int main(){
 
 			addItem(lista, &itemCurrentQuant, itemQuantMax);
 
-
-
 		}else if (op == 'R') {
 
 				removeItem(pBuffer, lista);
-
 
 		}else if (op == 'L') {
 
 				listItem(lista);
 
-
+		}else {
+			system("clear");
 		}
 	}
 	return 0;
